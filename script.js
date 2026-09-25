@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const startTimeMatch =
   preferredStartTime === "any" ||
   job.startTimeCategory === preferredStartTime ||
-  job.startTimeCategory === "any";
+
 
   return distanceMatch && payMatch && homeDailyMatch && startTimeMatch;
     });

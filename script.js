@@ -3,19 +3,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const distanceSelect = document.querySelector("#distance");
   const payInput = document.querySelector("#pay");
   const homeDailyCheckbox = document.querySelector('input[type="checkbox"]');
+  const startTimeSelect = document.querySelector("#startTime");
   const results = document.querySelector("#results");
 
   searchButton.addEventListener("click", function () {
     const maxDistance = parseInt(distanceSelect.value);
     const minimumPay = parseInt(payInput.value) || 0;
     const homeDailyOnly = homeDailyCheckbox.checked;
+    const preferredStartTime = startTimeSelect.value;
 
     const matchingJobs = jobs.filter(function (job) {
       const distanceMatch = job.distance <= maxDistance;
       const payMatch = job.weeklyPay >= minimumPay;
       const homeDailyMatch = !homeDailyOnly || job.homeDaily === true;
+      const startTimeMatch =
+  preferredStartTime === "any" ||
+  job.startTimeCategory === preferredStartTime ||
+  job.startTimeCategory === "any";
 
-      return distanceMatch && payMatch && homeDailyMatch;
+  return distanceMatch && payMatch && homeDailyMatch && startTimeMatch;
     });
 
     results.innerHTML = "";

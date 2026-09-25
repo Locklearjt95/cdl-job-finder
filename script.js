@@ -46,7 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
         <p>🚛 Equipment: ${job.equipment}</p>
         <p>📦 Freight: ${job.freight}</p>
       `;
+if (job.tanker) {
+  jobCard.innerHTML += `<p>🛢️ Tanker: Yes</p>`;
+}
 
+if (job.hazmat) {
+  jobCard.innerHTML += `<p>⚠️ Hazmat: Yes</p>`;
+}
       results.appendChild(jobCard);
     });
   });

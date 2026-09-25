@@ -1,9 +1,9 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const searchButton = document.querySelector("button");
   const distanceSelect = document.querySelector("#distance");
   const payInput = document.querySelector("#pay");
   const homeDailyCheckbox = document.querySelector('input[type="checkbox"]');
+  const results = document.querySelector("#results");
 
   searchButton.addEventListener("click", function () {
     const maxDistance = parseInt(distanceSelect.value);
@@ -18,14 +18,30 @@ document.addEventListener("DOMContentLoaded", function () {
       return distanceMatch && payMatch && homeDailyMatch;
     });
 
-    console.log("Matching jobs:", matchingJobs);
+    results.innerHTML = "";
 
-    alert(
-      "Found " +
-        matchingJobs.length +
-        " CDL job" +
-        (matchingJobs.length === 1 ? "" : "s") +
-        " matching your filters."
-    );
+    if (matchingJobs.length === 0) {
+      results.innerHTML = "<p>No CDL jobs match those filters.</p>";
+      return;
+    }
+
+    matchingJobs.forEach(function (job) {
+      const jobCard = document.createElement("div");
+      jobCard.className = "job-card";
+
+      jobCard.innerHTML = `
+        <h3>${job.title}</h3>
+        <strong>${job.company}</strong>
+        <p>📍 ${job.location} — ${job.distance} miles away</p>
+        <p>💰 $${job.weeklyPay.toLocaleString()} per week</p>
+        <p>🏠 Home Daily: ${job.homeDaily ? "Yes" : "No"}</p>
+        <p>📅 Schedule: ${job.schedule}</p>
+        <p>🕐 Start Time: ${job.startTime}</p>
+        <p>🚛 Equipment: ${job.equipment}</p>
+        <p>📦 Freight: ${job.freight}</p>
+      `;
+
+      results.appendChild(jobCard);
+    });
   });
 });

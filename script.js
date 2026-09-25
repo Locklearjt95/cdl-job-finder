@@ -1,11 +1,8 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
+  const searchButton = document.querySelector("button");
 
-  if (form) {
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      alert("CDL Job Finder search is working!");
-    });
-  }
+  searchButton.addEventListener("click", function () {
+    alert("CDL Job Finder search is working!");
+  });
 });

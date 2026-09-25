@@ -8,6 +8,7 @@ const jobs = [
     weeklyPay: 1500,
     schedule: "Monday-Friday",
     startTime: "11:00 PM",
+    startTimeCategory: "overnight",
     equipment: "Day Cab",
     freight: "Dry Van"
   },
@@ -20,6 +21,7 @@ const jobs = [
     weeklyPay: 1800,
     schedule: "5 days/week",
     startTime: "Varies",
+    startTimeCategory: "any",
     equipment: "Day Cab",
     freight: "Tanker"
   }

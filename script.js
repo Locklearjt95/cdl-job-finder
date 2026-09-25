@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const distanceMatch = job.distance <= maxDistance;
       const payMatch = job.weeklyPay >= minimumPay;
       const homeDailyMatch = !homeDailyOnly || job.homeDaily === true;
-      const startTimeMatch =
+ const startTimeMatch =
   preferredStartTime === "any" ||
-  job.startTimeCategory === preferredStartTime ||
+  job.startTimeCategory === preferredStartTime;
 
 
   return distanceMatch && payMatch && homeDailyMatch && startTimeMatch;

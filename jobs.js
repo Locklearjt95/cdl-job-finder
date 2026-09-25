@@ -1,28 +1,15 @@
 const jobs = [
   {
-    company: "Example Transport",
+    company: "Example Trucking",
     title: "CDL-A Local Driver",
     location: "Laurinburg, NC",
-    distance: 5,
+    pay: 1500,
     homeDaily: true,
-    weeklyPay: 1500,
     schedule: "Monday-Friday",
     startTime: "11:00 PM",
-    startTimeCategory: "overnight",
     equipment: "Day Cab",
-    freight: "Dry Van"
-  },
-  {
-    company: "Example Tanker",
-    title: "CDL-A Tanker Driver",
-    location: "Fayetteville, NC",
-    distance: 45,
-    homeDaily: true,
-    weeklyPay: 1800,
-    schedule: "5 days/week",
-    startTime: "Varies",
-    startTimeCategory: "any",
-    equipment: "Day Cab",
-    freight: "Tanker"
+    freight: "Dry Van",
+    tanker: false,
+    hazmat: false
   }
 ];

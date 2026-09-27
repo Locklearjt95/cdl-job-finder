@@ -17,7 +17,8 @@
     <h2>Find Your Job</h2>
 
     <label for="location">Location</label>
-    <input id="location" type="text" placeholder="Laurinburg, NC">
+    <input id="location" type="text" placeholder="Laurinburg, NC" aria-describedby="locationHelp">
+    <small id="locationHelp">Currently searching from Laurinburg, NC.</small>
 
     <label for="distance">Distance</label>
     <select id="distance">
@@ -28,7 +29,7 @@
     </select>
 
     <label>
-      <input type="checkbox">
+      <input id="homeDaily" type="checkbox">
       Home Daily
     </label>
 

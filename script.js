@@ -1,59 +1,74 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const searchButton = document.querySelector("button");
-  const distanceSelect = document.querySelector("#distance");
-  const payInput = document.querySelector("#pay");
-  const homeDailyCheckbox = document.querySelector('input[type="checkbox"]');
-  const startTimeSelect = document.querySelector("#startTime");
+  const locationInput = document.querySelector("#location");
   const results = document.querySelector("#results");
 
-  searchButton.addEventListener("click", function () {
-    const maxDistance = parseInt(distanceSelect.value);
-    const minimumPay = parseInt(payInput.value) || 0;
-    const homeDailyOnly = homeDailyCheckbox.checked;
-    const preferredStartTime = startTimeSelect.value;
+  document.querySelector("button").addEventListener("click", function () {
+    results.replaceChildren();
+    const location = locationInput.value.trim();
+    if (location && !/^laurinburg(?:,?\s*(?:nc|north carolina))?$/i.test(location)) {
+      results.textContent = "Distance is currently measured from Laurinburg, NC. Search from Laurinburg or leave Location blank.";
+      return;
+    }
 
+    const maxDistance = parseInt(document.querySelector("#distance").value, 10);
+    const minimumPay = Number(document.querySelector("#pay").value) || 0;
+    const homeDailyOnly = document.querySelector("#homeDaily").checked;
+    const startTime = document.querySelector("#startTime").value;
     const matchingJobs = jobs.filter(function (job) {
-      const distanceMatch = job.distance <= maxDistance;
-      const payMatch = job.weeklyPay >= minimumPay;
-      const homeDailyMatch = !homeDailyOnly || job.homeDaily === true;
- const startTimeMatch =
-  preferredStartTime === "any" ||
-  job.startTimeCategory === preferredStartTime;
-
-
-  return distanceMatch && payMatch && homeDailyMatch && startTimeMatch;
+      return Number.isFinite(job.distance) && job.distance <= maxDistance &&
+        (minimumPay === 0 || (Number.isFinite(job.weeklyPay) && job.weeklyPay >= minimumPay)) &&
+        (!homeDailyOnly || job.homeDaily === true) &&
+        (startTime === "any" || job.startTimeCategory === startTime);
     });
 
-    results.innerHTML = "";
-
-    if (matchingJobs.length === 0) {
-      results.innerHTML = "<p>No CDL jobs match those filters.</p>";
+    if (!matchingJobs.length) {
+      results.textContent = jobs.length
+        ? "No verified CDL jobs match those filters."
+        : "No verified job listings have been added yet. Check back for direct application links.";
       return;
     }
 
     matchingJobs.forEach(function (job) {
-      const jobCard = document.createElement("div");
-      jobCard.className = "job-card";
-
-      jobCard.innerHTML = `
-        <h3>${job.title}</h3>
-        <strong>${job.company}</strong>
-        <p>📍 ${job.location} — ${job.distance} miles away</p>
-        <p>💰 $${job.weeklyPay.toLocaleString()} per week</p>
-        <p>🏠 Home Daily: ${job.homeDaily ? "Yes" : "No"}</p>
-        <p>📅 Schedule: ${job.schedule}</p>
-        <p>🕐 Start Time: ${job.startTime}</p>
-        <p>🚛 Equipment: ${job.equipment}</p>
-        <p>📦 Freight: ${job.freight}</p>
-      `;
-if (job.tanker) {
-  jobCard.innerHTML += `<p>🛢️ Tanker: Yes</p>`;
-}
-
-if (job.hazmat) {
-  jobCard.innerHTML += `<p>⚠️ Hazmat: Yes</p>`;
-}
-      results.appendChild(jobCard);
+      const card = document.createElement("article");
+      card.className = "job-card";
+      const heading = document.createElement("h3");
+      heading.textContent = job.title;
+      card.appendChild(heading);
+      const company = document.createElement("strong");
+      company.textContent = job.company;
+      card.appendChild(company);
+      const details = [
+        ["Location", `${job.location} · ${job.distance} miles from Laurinburg`],
+        ["Pay", job.payText ?? (Number.isFinite(job.weeklyPay) ? `$${job.weeklyPay.toLocaleString()}/week` : null)],
+        ["Home daily", job.homeDaily ? "Yes" : "Not confirmed"],
+        ["Schedule", job.schedule], ["Start time", job.startTime],
+        ["Equipment", job.equipment], ["Freight", job.freight]
+      ];
+      if (job.tanker) details.push(["Tanker", "Yes"]);
+      if (job.hazmat) details.push(["Hazmat", "Yes"]);
+      details.forEach(function ([label, value]) {
+        const line = document.createElement("p");
+        line.textContent = `${label}: ${value ?? "Not listed"}`;
+        card.appendChild(line);
+      });
+      if (job.sourceUrl && /^https:\/\//.test(job.sourceUrl)) {
+        const source = document.createElement("a");
+        source.href = job.sourceUrl;
+        source.target = "_blank";
+        source.rel = "noopener noreferrer";
+        source.textContent = "View employer listing";
+        card.appendChild(source);
+        card.appendChild(document.createTextNode(" · "));
+      }
+      if (job.applyUrl && /^https:\/\//.test(job.applyUrl)) {
+        const link = document.createElement("a");
+        link.href = job.applyUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Apply directly";
+        card.appendChild(link);
+      }
+      results.appendChild(card);
     });
   });
 });

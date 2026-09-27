@@ -99,3 +99,9 @@ button {
   margin: 10px 0;
   line-height: 1.4;
 }
+
+.attribution {
+  margin: 24px 0 0;
+  color: #555;
+  font-size: 14px;
+}

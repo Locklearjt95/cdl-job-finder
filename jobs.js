@@ -5,7 +5,8 @@ const jobs = [
     company: "Lazer Logistics",
     title: "Local CDL A Yard Driver - Home Daily",
     location: "Raeford, NC",
-    distance: 20, // Approximate city-to-city driving distance from Laurinburg.
+    latitude: 34.980947,
+    longitude: -79.224097,
     weeklyPay: null,
     payText: "$18/hour starting pay; $1 shift differential depending on schedule",
     homeDaily: true,

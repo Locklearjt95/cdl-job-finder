@@ -16,9 +16,9 @@
   <main>
     <h2>Find Your Job</h2>
 
-    <label for="location">Location</label>
+    <label for="location">City, State or ZIP</label>
     <input id="location" type="text" placeholder="Laurinburg, NC" aria-describedby="locationHelp">
-    <small id="locationHelp">Currently searching from Laurinburg, NC.</small>
+    <small id="locationHelp">Leave blank to search from Laurinburg, NC. Distance is approximate straight-line miles.</small>
 
     <label for="distance">Distance</label>
     <select id="distance">
@@ -45,7 +45,8 @@
 </select>
 
     <button type="button">Find CDL Jobs</button>
-    <div id="results"></div>
+    <div id="results" role="status" aria-live="polite"></div>
+    <p class="attribution">City and ZIP lookup: <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>.</p>
   </main>
 </body>
   <script src="jobs.js"></script>
